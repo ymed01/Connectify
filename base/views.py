@@ -6,16 +6,16 @@ import time
 import json
 
 from .models import RoomMember
-
+from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-
+import os
 
 
 # Create your views here.
 
 def getToken(request):
-    appId = "YOUR APP ID"
-    appCertificate = "YOUR APP CERTIFICATE"
+    appId = os.getenv('AGORA_APP_ID')
+    appCertificate = os.getenv('AGORA_APP_CERTIFICATE')
     channelName = request.GET.get('channel')
     uid = random.randint(1,230)
     expirationTimeInSeconds = 3600 * 24
@@ -24,7 +24,7 @@ def getToken(request):
     role = 1 #means host
 
     token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs)
-    return JsonResponse({'token':token, 'uid':uid}, safe=False)
+    return JsonResponse({'token':token, 'uid':uid, 'appId':appId}, safe=False)
 
 
 def lobby(request):

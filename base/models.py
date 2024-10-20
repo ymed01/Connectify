@@ -19,3 +19,11 @@ class RoomMember(models.Model):
 
     def __str__(self):
         return self.name    
+    
+
+class AgoraCredentials(models.Model):
+    app_id = models.CharField(max_length=255)
+    app_certificate = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.app_id

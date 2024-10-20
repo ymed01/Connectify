@@ -9,13 +9,20 @@ from .models import RoomMember
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 import os
+from .models import AgoraCredentials
+
+
 
 
 # Create your views here.
 
 def getToken(request):
-    appId = os.getenv('AGORA_APP_ID')
-    appCertificate = os.getenv('AGORA_APP_CERTIFICATE')
+    credentials = AgoraCredentials.objects.first()  # Get the first record
+    if not credentials:
+        return JsonResponse({'error': 'Credentials not found'}, status=404)
+    
+    appId = credentials.app_id
+    appCertificate = credentials.app_certificate
     channelName = request.GET.get('channel')
     uid = random.randint(1,230)
     expirationTimeInSeconds = 3600 * 24

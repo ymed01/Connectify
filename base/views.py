@@ -23,6 +23,9 @@ def getToken(request):
     privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds
     role = 1 #means host
 
+    print("App ID:", appId)  # Log appId
+    print("App Certificate:", appCertificate)  # Log appCertificate
+    print("Channel Name:", channelName)  # Log channelName
     token = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs)
     return JsonResponse({'token':token, 'uid':uid, 'appId':appId}, safe=False)
 
